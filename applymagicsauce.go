@@ -1,5 +1,6 @@
 // Package applymagicsauce provides easy access to the API provided by https://applymagicsauce.com.
-// For an example scenario please refer to https://applymagicsauce.com/documentation_technical.html.
+// For an example scenario please refer to https://applymagicsauce.com/documentation_technical.html
+// or the example directory.
 package applymagicsauce
 
 import (
