@@ -169,15 +169,10 @@ func PredictLikeIDs(ids []string, options url.Values, auth *Token) (predictions 
 		return predictions, fmt.Errorf("api is temporarily not available")
 	case http.StatusForbidden:
 		if APIKey != "" {
-			token, err := Auth(auth.CustomerID, APIKey)
+			err = renewToken(auth)
 			if err != nil {
-				return predictions, fmt.Errorf("could not renew authentication token")
+				return predictions, err
 			}
-
-			auth.Expires = token.Expires
-			auth.Permissions = token.Permissions
-			auth.Token = token.Token
-			auth.UsageLimits = token.UsageLimits
 			return PredictLikeIDs(ids, options, auth)
 		}
 		return predictions, fmt.Errorf("authentication token expired")
@@ -225,15 +220,10 @@ func PredictText(text string, options url.Values, auth *Token) (predictions Pred
 		return predictions, fmt.Errorf("api is temporarily not available")
 	case http.StatusForbidden:
 		if APIKey != "" {
-			token, err := Auth(auth.CustomerID, APIKey)
+			err = renewToken(auth)
 			if err != nil {
-				return predictions, fmt.Errorf("could not renew authentication token")
+				return predictions, err
 			}
-
-			auth.Expires = token.Expires
-			auth.Permissions = token.Permissions
-			auth.Token = token.Token
-			auth.UsageLimits = token.UsageLimits
 			return PredictText(text, options, auth)
 		}
 		return predictions, fmt.Errorf("authentication token expired")
@@ -281,4 +271,18 @@ func doRequest(endpoint string, payload io.Reader, token *Token) (statusCode int
 	body, err = ioutil.ReadAll(response.Body)
 
 	return response.StatusCode, body, err
+}
+
+func renewToken(auth *Token) error {
+	token, err := Auth(auth.CustomerID, APIKey)
+	if err != nil {
+		return fmt.Errorf("could not renew authentication token")
+	}
+
+	auth.Expires = token.Expires
+	auth.Permissions = token.Permissions
+	auth.Token = token.Token
+	auth.UsageLimits = token.UsageLimits
+
+	return nil
 }
