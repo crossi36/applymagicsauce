@@ -115,7 +115,7 @@ func Auth(customerID int, apiKey string) (authToken *Token, err error) {
 	return authToken, err
 }
 
-// Predictions represents the result of you call to one of the prediction endpoints (PredictLikeIDs or
+// Predictions represents the result of your call to one of the prediction endpoints (PredictLikeIDs or
 // PredictText).
 type Predictions struct {
 	InputUsed int `json:"input_used"`
