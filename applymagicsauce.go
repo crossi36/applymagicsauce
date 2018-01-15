@@ -246,7 +246,7 @@ func PredictTextOptions(source string, traits []string, interpretations bool) (o
 	return options
 }
 
-func doRequest(endpoint string, payload io.Reader, token *Token) (statusCode int, body []byte, err error) {
+func doRequest(endpoint string, payload io.Reader, auth *Token) (statusCode int, body []byte, err error) {
 	request, err := http.NewRequest(http.MethodPost, apiURL+endpoint, payload)
 	if err != nil {
 		return 0, nil, err
@@ -254,8 +254,8 @@ func doRequest(endpoint string, payload io.Reader, token *Token) (statusCode int
 
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Accept", "application/json")
-	if token != nil {
-		request.Header.Set("X-Auth-Token", token.Token)
+	if auth != nil {
+		request.Header.Set("X-Auth-Token", auth.Token)
 	}
 
 	client := &http.Client{
