@@ -15,7 +15,7 @@ func main() {
 
 Next, you create an options object for the desired prediction function. In this example we will use the `PredictText()` function. Therefore, we create a options object with the `PredictTextOptions()` function. We pass `nil` as the parameter for traits, because we do not want to limit the traits in our prediction. An empty slice would work as well.
 ```
-    textOptions := ams.PredictTextOptions(ams.SourceOther, nil, true)
+	textOptions := ams.PredictTextOptions(ams.SourceOther, nil, true)
 ```
 
 The last step is to use the options object and make a prediction for some arbitrary text. We use the `PredictText()` function for this.
